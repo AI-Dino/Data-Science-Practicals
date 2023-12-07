@@ -1,0 +1,29 @@
+# Load the dataset
+data(InsectSprays)
+data = InsectSprays
+
+# Extract variables by group
+spray_A <- data$count[data$spray == "A"]
+spray_B <- data$count[data$spray == "B"]
+spray_C <- data$count[data$spray == "C"]
+spray_D <- data$count[data$spray == "D"]
+spray_E <- data$count[data$spray == "E"]
+spray_F <- data$count[data$spray == "F"]
+
+# Calculate mean of each group
+mean_A <- mean(spray_A)
+mean_B <- mean(spray_B)
+mean_C <- mean(spray_C)
+mean_D <- mean(spray_D)
+mean_E <- mean(spray_E)
+mean_F <- mean(spray_F)
+
+# Create a boxplot
+boxplot(data$count ~ data$spray, xlab = "Group", ylab = "Variable", main = "Boxplot of Variables by Spray")
+
+# Perform ANOVA
+anova_result <- aov(count ~ spray, data = data)
+
+# Print ANOVA summary
+summary(anova_result)
+aov(anova_result)
