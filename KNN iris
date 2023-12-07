@@ -1,0 +1,25 @@
+# Load necessary packages
+if (!requireNamespace("class", quietly = TRUE)) {
+  install.packages("class")
+}
+library(class)
+
+
+# Load Iris dataset
+data(iris)
+
+# Split the dataset into training and testing sets
+set.seed(123)
+sample_indices <- sample(1:nrow(iris), size = 0.7 * nrow(iris))
+train_data <- iris[sample_indices, ]
+test_data <- iris[-sample_indices, ]
+
+# Define the number of neighbors (k)
+k <- 3
+
+# Apply k-Nearest Neighbors algorithm
+predictions <- knn(train = train_data[, 1:4], test = test_data[, 1:4], cl = train_data$Species, k = k)
+
+# Print the accuracy
+accuracy <- sum(predictions == test_data$Species) / nrow(test_data)
+cat("Accuracy:", accuracy, "\n")
