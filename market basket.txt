@@ -1,0 +1,4 @@
+support = a & c / total
+confidence = a & c / A
+Lift Ratio = Confidence / Benchmark Confidence
+BC = C/Total
