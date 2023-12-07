@@ -1,0 +1,45 @@
+# Install and load necessary libraries
+if (!requireNamespace("ISLR", quietly = TRUE)) {
+  install.packages("ISLR")
+}
+library(ISLR)
+
+# Load the Default dataset
+data(Default)
+
+# Display the first few rows of the dataset
+head(Default)
+
+# Split the dataset into training and testing sets
+set.seed(123)
+indices <- sample(1:nrow(Default), 0.8 * nrow(Default))
+train_data <- Default[indices, ]
+test_data <- Default[-indices, ]
+
+# Check the lengths of the training and testing sets
+nrow(train_data)
+nrow(test_data)
+
+# Define the predictors and response variable for training and testing
+x_train <- train_data[, c("balance", "income", "student")]
+y_train <- train_data$default
+x_test <- test_data[, c("balance", "income", "student")]
+y_test <- test_data$default
+
+# Create and train the logistic regression model
+model <- glm(default ~ balance + income + student, data = train_data, family = binomial)
+
+# Make predictions on the test data
+y_pred_probs <- predict(model, newdata = test_data, type = "response")
+
+# Convert probabilities to binary predictions
+y_pred_class <- ifelse(y_pred_probs > 0.5, "Yes", "No")
+
+# Calculate accuracy
+accuracy <- sum(y_pred_class == test_data$default) / nrow(test_data) * 100
+cat("Accuracy:", accuracy, "%\n")
+
+# Make a single prediction
+new_data_point <- data.frame(balance = 1500, income = 50000, student = "No")
+prediction <- predict(model, newdata = new_data_point, type = "response")
+cat("Probability of Default:", prediction, "\n")
