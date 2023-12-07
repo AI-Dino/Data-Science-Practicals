@@ -1,0 +1,20 @@
+# Install and load necessary packages
+if (!requireNamespace("arules", quietly = TRUE)) {
+  install.packages("arules")
+}
+library(arules)
+
+# Load the Groceries dataset
+data("Groceries")
+
+# Explore the dataset
+summary(Groceries)
+
+# Perform Apriori algorithm to generate association rules
+rules <- apriori(Groceries, parameter = list(support = 0.001, confidence = 0.5))
+
+# Print the generated rules
+inspect(rules)
+
+# If you want to see rules in a more readable format
+# inspect(sort(rules, by = "lift"))
